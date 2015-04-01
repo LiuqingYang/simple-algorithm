@@ -11,6 +11,7 @@ Compile with VS2010+ or gcc
 */
 
 #include <stdio.h>
+#include <string.h>
 
 template<class T> void ins_sort(T* data, int num)
 {	//insert sort
@@ -18,11 +19,7 @@ template<class T> void ins_sort(T* data, int num)
 	{
 		T key = data[j];
 		int i = j - 1;
-		/*while(i >= 0 && data[i] > key)
-		{
-			data[i+1] = data[i];
-			i--;
-		}*/
+
 		for(; i>=0 && data[i] > key; i--)
 			data[i+1] = data[i];
 		data[i+1] = key;
@@ -143,6 +140,25 @@ template<class T> int binary_search(T* data, T key, int num)
 	return -1;
 }
 
+int sort_test()
+{
+	int data[] = {2, 1, 5, 4, 4, 9, 3, 5, 3, 1, 5, 7, 4};
+	int tmpdata[13];
+
+	for (int i = 1; i <= 13; i++)
+	{
+		memcpy(tmpdata, data, sizeof(data));
+		//ins_sort(tmpdata, i);
+		sel_sort(tmpdata, i);
+		merge_sort(tmpdata, 0, i);
+		for (int j = 0; j < i - 1; j++)
+			if (tmpdata[j] > tmpdata[j+1])
+				printf("found a sort error!\n");
+
+	}
+	printf("sort test complete!\n");
+}
+
 //unit test
 int binary_search_unittest()
 {
@@ -198,8 +214,9 @@ int binary_search_unittest()
 
 int main(int argc, char* argv[])
 {
-	int data[] = {6, 5, 4, 3, 2, 1, 8, 7};
-	int i = merge_sort(data, 0, 7);
+	//int data[] = {6, 5, 4, 3, 2, 1, 8, 7};
+	//int i = merge_sort(data, 0, 7);
+	sort_test();
 	binary_search_unittest();
 	return 0;
 }
